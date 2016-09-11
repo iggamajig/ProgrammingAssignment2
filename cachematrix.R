@@ -1,15 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These cache functions invert a matrix with less time.
 
-## Write a short comment describing this function
+## This assigns a list of items to be used in the cacheSolve function.
 
 makeCacheMatrix <- function(x = matrix()) {
-
+        inverted.matrix <- NULL
+        set <- function(y) {
+                x <<- y
+                inverted.matrix <<- NULL
+        }
+        get <- function() x
+        setsolve <- function(solve) inverted.matrix <<- solve
+        getsolve <- function() inverted.matrix
+        list(set = set, get = get,
+             setsolve = setsolve,
+             getsolve = getsolve)
 }
 
 
-## Write a short comment describing this function
+## This draws objects from makeCacheMatrix to calculate an inverted matrix more easily.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        inverted.matrix <- x$getinvert()
+        if(!is.null(inverted.matrix)) {
+                message("getting cached matrix")
+                return(inverted.matrix)
+        }
+        data <- x$get()
+        inverted.matrix <- solve(data, ...)
+        x$setsolve(inverted.matrix)
+        inverted.matrix
 }
